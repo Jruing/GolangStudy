@@ -1,6 +1,6 @@
 # GolangStudy
 
-##
+## 学习计划
 - [x] CLI_demo
 - [x] gin_session_demo
 - [x] casbin_demo

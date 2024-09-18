@@ -1,0 +1,21 @@
+[database]
+host = "localhost"
+port = 3306
+user = "root"
+password = "root"
+database = "test"
+
+[server]
+host = "localhost"
+port = 8080
+
+[log]
+level = "debug"
+format = "json"
+path = "/var/log/app.log"
+
+[data]
+name = "Jruing"
+info = { name = "John", age = 30}
+prod = false
+numbers = [1, 2, 3, 4, 5, 6]

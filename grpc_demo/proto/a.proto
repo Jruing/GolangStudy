@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+// 包名
+package  grpc_demo;
+
+// 指定输出 go 语言的源码到哪个目录以及文件名称
+// 最终在 test.proto 目录生成 test.pb.go
+// 也可以只填写 "./"
+option go_package = "./proto";
+
+// 如果要输出其它语言的话
+// option csharp_package="MyTest";
+
+service Greeter{
+  rpc SayHello(Request) returns (Response){}
+}
+
+// 函数参数
+message  Request{
+  string  name = 1;
+}
+
+// 函数返回值
+message  Response{
+  string  name = 1;
+}

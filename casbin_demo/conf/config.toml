@@ -1,0 +1,20 @@
+[mysql]
+host = "127.0.0.1"
+port = 3306
+username = "jruing"
+password = "111"
+db = ""
+
+[casbin]
+config_path = ""
+
+[redis]
+host = "127.0.0.1"
+port = 6379
+username = "jruing"
+password = "111"
+db = ""
+
+[project]
+secret = ""
+logfile = ""

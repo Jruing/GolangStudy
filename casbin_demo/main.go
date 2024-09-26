@@ -1,51 +1,50 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
-	"github.com/casbin/casbin/v2"
-	gormadapter "github.com/casbin/gorm-adapter/v3"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"net/http"
+	"os/exec"
 )
 
+//go:embed static/*
+var data string
+
 func main() {
-
-	a, _ := gormadapter.NewAdapter("mysql", "casbin:J8R8dwYEVZbDE9VJ@tcp(mysql.sqlpub.com:3306)/casbin", true) // Your driver and data source.
-	e, _ := casbin.NewEnforcer("conf/rbac_model.conf", a)
-
-	// 加载策略
-	err := e.LoadPolicy()
+	r := gin.Default()
+	r.Static("../static", "static")
+	r.LoadHTMLGlob("static/*.tmpl")
+	r.Use()
+	r.GET("/install", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "install.tmpl", gin.H{
+			"title": "Main website",
+		})
+	})
+	r.POST("/inits", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"Code": 2,
+			"Msg":  "msg",
+		})
+	})
+	// 重启项目
+	r.GET("/restart", func(ctx *gin.Context) {
+		cmd := exec.Command("killall", "-HUP", "appweiyigeek")
+		err := cmd.Run()
+		if err != nil {
+			fmt.Println("Error executing restart command:", err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to restart Gin server."})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{"message": "Gin server restarted successfully."})
+	})
+	user := r.Group("/user")
+	{
+		user.POST("")
+	}
+	err := r.Run(":8000")
 	if err != nil {
 		return
 	}
-
-	//// 校验权限.
-	//_, err = e.Enforce("alice", "data1", "read")
-	//if err != nil {
-	//	fmt.Println("权限校验失败")
-	//	return
-	//}
-	//fmt.Println("权限校验")
-	var policy [][]string
-	slice1 := []string{"运维", "百度", "CMDB", "read"}
-
-	policy = append(policy, slice1)
-	e.AddPolicies(policy)
-	// Modify the policy.
-	// e.AddPolicy(...)
-	// e.RemovePolicy(...)
-
-	//e.AddRoleForUser("张三", "运维", "百度")
-	//e.AddRoleForUser("李四", "运维", "百度")
-	//e.AddRoleForUser("王五", "开发", "百度")
-	// 修改策略
-	//var c []string
-	//c = append(c, "aaa")
-	//e.UpdatePolicy(c, c)
-
-	// 保存策略
-	err = e.SavePolicy()
-	if err != nil {
-		return
-	}
-	fmt.Println("完成")
 }

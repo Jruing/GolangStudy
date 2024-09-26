@@ -13,7 +13,7 @@ type Request struct {
 	Act string
 }
 
-func PolicyAdd(c *gin.Context) {
+func (receiver Request) PolicyAdd(c *gin.Context) {
 	enforcer := cmd.Enforcer
 	var request Request
 	err := c.Bind(&request)
@@ -31,7 +31,7 @@ func PolicyAdd(c *gin.Context) {
 	}
 }
 
-func PolicyDel(c *gin.Context) {
+func (receiver Request) PolicyDel(c *gin.Context) {
 	enforcer := cmd.Enforcer
 	var request Request
 	err := c.Bind(&request)
@@ -49,7 +49,7 @@ func PolicyDel(c *gin.Context) {
 	}
 }
 
-func PolicyMatch(c *gin.Context) {
+func (receiver Request) PolicyMatch(c *gin.Context) {
 	enforcer := cmd.Enforcer
 	var request Request
 	err := c.Bind(&request)

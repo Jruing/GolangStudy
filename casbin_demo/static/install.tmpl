@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
+    <title>Offcanvas template · Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/offcanvas/">
+
+    <!-- Bootstrap core CSS -->
+<link href="../static/css/bootstrap.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="../static/css/offcanvas.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand mr-auto mr-lg-0" href="#">Casbin 权限管理系统</a>
+  <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>
+
+
+<main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <div class="lh-100">
+      <h4 class="mb-0 text-white lh-100 ">初始化配置</h4>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h4 class="border-bottom border-gray pb-2 mb-0 text-center">MYSQL数据库配置</h4>
+    <form>
+      <div class="mb-3">
+        <label for="dbhost" class="form-label">数据库地址</label>
+        <input type="text" class="form-control" id="dbhost" aria-describedby="emailHelp" required>
+        <div class="invalid-feedback">此项为必填项</div>
+
+      </div>
+      <div class="mb-3">
+        <label for="dbport" class="form-label">数据库端口</label>
+        <input type="number" class="form-control" id="dbport" required>
+      </div>
+      <div class="mb-3">
+        <label for="dbuser" class="form-label">数据库用户名</label>
+        <input type="text" class="form-control" id="dbuser" aria-describedby="emailHelp" required>
+      </div>
+      <div class="mb-3">
+        <label for="dbpasswd" class="form-label">数据库密码</label>
+        <input type="password" class="form-control" id="dbpasswd" aria-describedby="emailHelp" required>
+      </div>
+      <div class="mb-3">
+        <label for="dbname" class="form-label">数据库名称</label>
+        <input type="text" class="form-control" id="dbname" aria-describedby="emailHelp" required>
+      </div>
+    </form>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h4 class="border-bottom border-gray pb-2 mb-0 text-center">Redis数据库配置</h4>
+    <form>
+      <div class="mb-3">
+        <label for="rdshost" class="form-label">数据库地址</label>
+        <input type="text" class="form-control" id="rdshost" aria-describedby="emailHelp" required>
+      </div>
+      <div class="mb-3">
+        <label for="rdsport" class="form-label">数据库端口</label>
+        <input type="number" class="form-control" id="rdsport" required>
+      </div>
+      <div class="mb-3">
+        <label for="rdspasswd" class="form-label">数据库密码</label>
+        <input type="password" class="form-control" id="rdspasswd" aria-describedby="emailHelp" required>
+      </div>
+      <div class="mb-3">
+        <label for="rdsname" class="form-label">数据库名称</label>
+        <input type="number" class="form-control" id="rdsname" aria-describedby="emailHelp" required>
+      </div>
+    </form>
+  </div>
+  <div class="align-content-center">
+    <h4 class="border-bottom border-gray pb-2 mb-0 text-center">
+      <button class="btn btn-primary" id="submit-btn">开始初始化</button>
+    </h4>
+  </div>
+  <div id="liveAlertPlaceholder"></div>
+
+</main>
+<script src="../static/js/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../static/js/jquery-3.5.1.slim.min.js"><\/script>')</script><script src="../static/js/bootstrap.bundle.js"></script>
+        <script src="../static/js/offcanvas.js"></script></body>
+<script type="application/javascript">
+
+  var dbhost = document.getElementById('dbhost').value;
+  var dbport = document.getElementById('dbport').value;
+  var dbuser = document.getElementById('dbuser').value;
+  var dbpasswd = document.getElementById('dbpasswd').value;
+  var dbname = document.getElementById('dbname').value;
+  var rdshost = document.getElementById('rdshost').value;
+  var rdsport = document.getElementById('rdsport').value;
+  var rdsname = document.getElementById('rdsname').value;
+  var rdspasswd = document.getElementById('rdspasswd').value;
+  var btn = document.getElementById('submit-btn');
+  btn.onclick = function () {
+    fetch('/inits',{
+      method: 'POST',
+      // mode: 'same-origin',
+      mode: 'cors',
+      body: JSON.stringify({
+        "dbhost":dbhost,
+        "dbport":dbport,
+        "dbuser":dbuser,
+        "dbpasswd":dbpasswd,
+        "dbname":dbname,
+        "rdshost":rdshost,
+        "rdsport":rdsport,
+        "rdsname":rdsname,
+        "rdspasswd":rdspasswd,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res=>{
+      alert("正在初始化，请耐心等待")
+      return res.json;
+    }).catch(err=>console.log(err));
+  }
+  function tijiao(){
+    $(document).ready(function () {
+      var dbhost = $('#dbhost').val();
+      var dbport = $('#dbport').val();
+      var dbuser = $('#dbuser').val();
+      var dbpasswd = $('#dbpasswd').val();
+      var dbname = $('#dbname').val();
+      var rdshost = $('#rdshost').val();
+      var rdsport = $('#rdsport').val();
+      var rdsname = $('#rdsname').val();
+      var rdspasswd = $('#rdspasswd').val();
+      fetch("http://127.0.0.1:8000/inits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        },
+        body: {
+          "dbhost":dbhost,
+          "dbport":dbport,
+          "dbuser":dbuser,
+          "dbpasswd":dbpasswd,
+          "dbname":dbname,
+          "rdshost":rdshost,
+          "rdsport":rdsport,
+          "rdsname":rdsname,
+          "rdspasswd":rdspasswd,
+        }
+      }).then(function (response) {
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        if (response.status === 200){
+          alert("初始化成功")
+          const wrapper = document.createElement('div')
+          wrapper.innerHTML = [
+            `<div class="alert alert-success alert-dismissible" role="alert">`,
+            `   <div>初始化成功</div>`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+          ].join('')
+          alertPlaceholder.append(wrapper)
+          const alertTrigger = document.getElementById('liveAlertBtn')
+          if (alertTrigger) {
+            alertTrigger.addEventListener('click', () => {
+              alert('初始化成功', 'success')
+            })
+          }
+        }else {
+          alert("初始化失败")
+          const wrapper = document.createElement('div')
+          wrapper.innerHTML = [
+            `<div class="alert alert-danger alert-dismissible" role="alert">`,
+            `   <div>初始化成功</div>`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+          ].join('')
+          alertPlaceholder.append(wrapper)
+          const alertTrigger = document.getElementById('liveAlertBtn')
+          if (alertTrigger) {
+            alertTrigger.addEventListener('click', () => {
+              alert('初始化失败', 'danger')
+            })
+          }
+        }
+      });
+
+      // async function fetchText() {
+      //
+      // }
+
+    });
+  };
+  // 校验必填项
+  $(document).ready(function(){
+    // 初始时禁用按钮
+    $('#submit-btn').prop('disabled', true);
+    // 监听所有输入框的 change 事件
+    $('input').on('change', function() {
+      // 检查所有输入框是否都不为空
+      var allFilled = true;
+      $('input').each(function() {
+        if ($(this).val() === '') {
+          allFilled = false;
+          return false; // 终止循环
+        }
+      });
+      // 根据检查结果启用或禁用按钮
+      if (allFilled) {
+        $('#submit-btn').prop('disabled', false);
+      } else {
+        $('#submit-btn').prop('disabled', true);
+      }
+    });
+  });
+
+</script>
+</html>
